@@ -1,9 +1,9 @@
 package com.elianisdev.myfirstkotlinapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,21 +17,26 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 //Main activity class
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         //defines the activity's layout where composable functions are called
         setContent {
             LoginScreen()
@@ -40,6 +45,10 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun LoginScreen() {
+    //Variables to store the email and password
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,13 +69,24 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.size(12.dp))
         Text(text = "Inicia sesión en tu cuenta")
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = email,
+            onValueChange = {
+                email = it
+            },
             label = { Text(text = "Correo electrónico") })
         Spacer(modifier = Modifier.size(6.dp))
-        OutlinedTextField(value = "", onValueChange = {}, label = { Text(text = "Contraseña") })
+        OutlinedTextField(
+            value = password ,
+            onValueChange = {
+                password = it
+            },
+            label = { Text(text = "Contraseña")
+            },
+            visualTransformation = PasswordVisualTransformation()
+        )
         Spacer(modifier = Modifier.size(12.dp))
         GradientButton(
+            onClick = {Log.i("Credential", "Email: $email, Password: $password")},
             text = "Iniciar sesión",
             textColor = Color.White,
             gradient = Brush.horizontalGradient(
@@ -75,7 +95,7 @@ fun LoginScreen() {
                     color2
                 )
             )
-        ) { }
+        )
         Spacer(modifier = Modifier.size(6.dp))
         Text(text = "¿Olvidaste tu contraseña?", modifier = Modifier.clickable {
             //Forgot password
@@ -85,32 +105,37 @@ fun LoginScreen() {
 
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxSize().padding(40.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(40.dp)
         ) {
             Image(painter = painterResource(id = R.drawable.facebook_color_svgrepo_com),
                 contentDescription = "Facebook",
-                modifier = Modifier.size(60.dp).clickable {
-                    //Facebook login
-                })
+                modifier = Modifier
+                    .size(60.dp)
+                    .clickable {
+                        //Facebook login
+                    })
             Image(painter = painterResource(id = R.drawable.google_color_svgrepo_com),
                 contentDescription = "Google",
-                modifier = Modifier.size(60.dp).clickable {
-                    //Google login
-                })
+                modifier = Modifier
+                    .size(60.dp)
+                    .clickable {
+                        //Google login
+                    })
             Image(painter = painterResource(id = R.drawable.twitter_color_svgrepo_com),
                 contentDescription = "Twitter",
-                modifier = Modifier.size(60.dp).clickable {
-                    //Twitter login
-                })
+                modifier = Modifier
+                    .size(60.dp)
+                    .clickable {
+                        //Twitter login
+                    })
 
         }
 
     }
 
-    }
-
-
-
+}
 
 //Preview function to display the UI
 @Preview( showBackground = true)
