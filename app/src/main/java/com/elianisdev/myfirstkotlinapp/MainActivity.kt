@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
+
 import com.elianisdev.myfirstkotlinapp.ui.theme.MyFirstKotlinAppTheme
 
 //Main activity class
@@ -63,10 +66,18 @@ fun LoginScreen(){
     //Variables to store the email and password
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val gradientColorList = listOf(
+        Color(0xFF00BFA5),
+        Color(0xFF00B8D4),
+        Color(0xFF0097A7),
+        Color(0xFF006064)
+    )
 
     Column(
+
         modifier = Modifier
             .fillMaxSize()
+            .background(brush = gradientBackgroundBrush(isVerticalGradient = true, colors = gradientColorList ))
             .padding(horizontal = 30.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -79,10 +90,12 @@ fun LoginScreen(){
         Text(
             text = "Bienvenido!",
             fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
+            color = color3
         )
         Spacer(modifier = Modifier.size(12.dp))
-        Text(text = "Inicia sesión en tu cuenta")
+        Text(text = "Inicia sesión en tu cuenta",
+            color = color3)
         OutlinedTextField(
             value = email,
             onValueChange = {
@@ -104,7 +117,8 @@ fun LoginScreen(){
                 Icon(imageVector = Icons.Default.Email, contentDescription = "Email" )
 
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
         Spacer(modifier = Modifier.size(6.dp))
@@ -132,7 +146,8 @@ fun LoginScreen(){
                 Icon(imageVector = Icons.Default.Lock, contentDescription = "Password" )
 
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
         Spacer(modifier = Modifier.size(12.dp))
@@ -148,11 +163,13 @@ fun LoginScreen(){
             )
         )
         Spacer(modifier = Modifier.size(6.dp))
-        Text(text = "¿Olvidaste tu contraseña?", modifier = Modifier.clickable {
+        Text(text = "¿Olvidaste tu contraseña?",
+            color = color3,
+            modifier = Modifier.clickable {
             //Forgot password
         })
         Spacer(modifier = Modifier.size(32.dp))
-        Text(text = "O inicia sesión con")
+        Text(text = "O inicia sesión con", color = color3)
 
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -187,7 +204,23 @@ fun LoginScreen(){
     }
 
 }
+@Composable
+fun gradientBackgroundBrush(
+    isVerticalGradient: Boolean,
+    colors: List<Color>,
+): Brush {
+    val endOffset = if (isVerticalGradient){
+        Offset(x = 0f, y = Float.POSITIVE_INFINITY)
+    } else {
+        Offset(Float.POSITIVE_INFINITY, 0f)
+    }
+    return Brush.linearGradient(
+        colors = colors,
+        start = Offset.Zero,
+        end = endOffset
+    )
 
+}
 //Preview function to display the UI
 @Preview( showBackground = true)
 @Composable
