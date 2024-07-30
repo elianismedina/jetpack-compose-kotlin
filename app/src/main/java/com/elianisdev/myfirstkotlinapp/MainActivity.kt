@@ -11,11 +11,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.elianisdev.myfirstkotlinapp.ui.theme.MyFirstKotlinAppTheme
 
 //Main activity class
 
@@ -39,12 +47,19 @@ class MainActivity : ComponentActivity() {
 
         //defines the activity's layout where composable functions are called
         setContent {
-            LoginScreen()
+            MyFirstKotlinAppTheme {
+                Surface(
+                    color = MaterialTheme.colorScheme.background,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    LoginScreen()
+                }
+            }
         }
     }
 }
 @Composable
-fun LoginScreen() {
+fun LoginScreen(){
     //Variables to store the email and password
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -73,7 +88,25 @@ fun LoginScreen() {
             onValueChange = {
                 email = it
             },
-            label = { Text(text = "Correo electrónico") })
+            label = { Text(text = "Correo electrónico") },
+            colors = TextFieldDefaults.colors(
+                focusedLeadingIconColor = color1,
+                unfocusedLeadingIconColor = color1,
+                focusedLabelColor = color1,
+                unfocusedLabelColor = color1,
+                focusedContainerColor = color3,
+                unfocusedContainerColor = color3,
+                focusedIndicatorColor = color1,
+                unfocusedIndicatorColor = color1,
+                unfocusedPlaceholderColor = color1,
+
+            ), leadingIcon = {
+                Icon(imageVector = Icons.Default.Email, contentDescription = "Email" )
+
+            },
+            modifier = Modifier.fillMaxWidth()
+                .padding(bottom = 8.dp)
+        )
         Spacer(modifier = Modifier.size(6.dp))
         OutlinedTextField(
             value = password ,
@@ -82,7 +115,25 @@ fun LoginScreen() {
             },
             label = { Text(text = "Contraseña")
             },
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            colors = TextFieldDefaults.colors(
+                focusedLeadingIconColor = color1,
+                unfocusedLeadingIconColor = color1,
+                focusedLabelColor = color1,
+                unfocusedLabelColor = color1,
+                focusedContainerColor = color3,
+                unfocusedContainerColor = color3,
+                focusedIndicatorColor = color1,
+                unfocusedIndicatorColor = color1,
+                unfocusedPlaceholderColor = color1,
+
+
+                ), leadingIcon = {
+                Icon(imageVector = Icons.Default.Lock, contentDescription = "Password" )
+
+            },
+            modifier = Modifier.fillMaxWidth()
+                .padding(bottom = 8.dp)
         )
         Spacer(modifier = Modifier.size(12.dp))
         GradientButton(
